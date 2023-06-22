@@ -17,8 +17,17 @@ STRUCTURE ToDO APP
 
 task list
 
-create database
-create tasks table
+create database (user: id, pswd) 
+    - we can also create space for user details (name, email...)
+
+create tasks table (linkable with id_user)
+    - id_task
+    - task_name
+    - task_description
+    - status
+    - start_time
+    - end_time
+    - id_user
 
 create php models for tasks and users (CRUD model)
 create php controllers for login, logout, and show options
