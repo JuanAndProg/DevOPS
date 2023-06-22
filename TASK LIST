@@ -1,0 +1,26 @@
+TASK LIST
+
+STRUCTURE ToDO APP
+
+- app
+  - Controllers
+  - Models
+  - Views
+- config
+- public
+  - css
+  - js
+- resources
+  - views
+- routes
+- tests
+
+task list
+
+create database
+create tasks table
+
+create php models for tasks and users (CRUD model)
+create php controllers for login, logout, and show options
+define actions needed
+create views
