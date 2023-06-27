@@ -11,4 +11,5 @@
  */
 $routes = array(
 	'/test' => 'test#index'
+	//TODO empezar a definir rutas
 );
