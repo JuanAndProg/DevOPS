@@ -1,0 +1,42 @@
+TASK LIST
+
+STRUCTURE ToDO APP
+
+- app
+  - Controllers
+  - Models
+  - Views
+- config
+- public
+  - css
+  - js
+- resources
+  - views
+- routes
+- tests
+
+task list
+
+//create database 
+CREATE TABLE users{
+id_user INT PRIMARY KEY AUTO_INCREMENT,
+pswd // ?
+name VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL //TODO create pswd recover option?
+}
+
+CREATE TABLE TASKS {
+    - id_task INT PRIMARY KEY AUTO_INCREMENT,
+    - task_name VARCHAR(255) NOT NULL,
+    - task_description VARCHAR(255),
+    - status ENUM('pendent', 'en execució', 'acabada') NOT NULL,
+    - start_time DATETIME,
+    - end_time DATETIME,
+    - id_user INT NOT NULL,
+      FOREIGN KEY (id_user) REFERENCES users(id_user)
+};
+
+create php models for tasks and users (CRUD model)
+create php controllers for login, logout, and show options
+define actions needed
+create views
