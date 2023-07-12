@@ -10,6 +10,6 @@
  * '/calendar' => 'calendar#index'
  */
 $routes = array(
-	'/test' => 'test#index'
-	//TODO empezar a definir rutas
+	'/test' => 'test#index',
+	'create'=> 'test#createTask'
 );
