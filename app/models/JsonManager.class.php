@@ -7,7 +7,15 @@ abstract class JsonManager
     
     // Method to create json file id doesn't exist
     // Path to json file using  global ROOT_PATH set in index.php
-    protected string $filePath = ROOT_PATH . '/app/data/tasks.json';
+
+    /* Forma usando ROOT_PATH
+    protected string $filePath = ROOT_PATH . '/app/data/tasks.json'; 
+    Parche para poder seguir:*/
+    static string $filePath = 
+    "C:/Users/User/OneDrive/Escritorio/FS-PHP/DevOPS/app/models/data/tasks.json";
+
+
+    
     
     static function checkAndCreateJson(): void
     {
@@ -22,8 +30,9 @@ abstract class JsonManager
         // Get the content from JSON file
         $jsonString = file_get_contents(self::$filePath);
         // Convert Json content to an associative array
-        $tasks [] = json_decode($jsonString, true);
-        return $tasks;
+        $data = json_decode($jsonString, true);
+        // Return an empty array if decoding fails or the JSON is empty
+        return $data ? : [];
     }
     // Write back in Json file
 
