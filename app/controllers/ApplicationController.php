@@ -30,5 +30,8 @@ class ApplicationController extends Controller
         CreateTaskModel::saveTask($task);
     }
     // TODO: Redirect to a succes page or can be from the form page
+    public function showListAction()
+    {
+    }
 }
 ?>
