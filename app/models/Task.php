@@ -13,10 +13,11 @@ Class Task
 
     // Constructor
 
-    // TODO: Quizá sea mejor asignarle cadena vacía a description
+    // TODO: Quizá sea mejor asignarle cadena vacía a description, ver como viene de formulario
 
     public function __construct(string $author, string $name,?string $description = null, string $status = "Pending") {
-        $this->id = ++$this->lastId;//Puede ser $this-> o self:: , que sí lleva $ 
+        //Puede ser $this->(No me anduvo) o self::(que sí lleva $) 
+        $this->id = ++self::$lastId;
         $this->author = $author;
         $this->name = $name;
         $this->description = $description;
