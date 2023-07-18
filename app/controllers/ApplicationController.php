@@ -14,11 +14,14 @@ class ApplicationController extends Controller
     public function indexAction()
     {
     }
-
+    public function taskFormAction()
+    {
+        
+    }
     // Method to createTask
 
     // TODO: Need validations if the form is filled or not
-    public function createTaskAction(): void
+    public function savedTaskAction(): void
     {
         // Get info from the taskForm by POST method
         $author      = $_POST["author"];
@@ -29,6 +32,19 @@ class ApplicationController extends Controller
         $task = new Task($author, $name, $description, $status);
         CreateTaskModel::saveTask($task);
     }
-    // TODO: Redirect to a succes page or can be from the form page
+   // TODO: Redirect to a succes page or can be from the form page
+   public function showListAction()
+    {
+    }
+    public function viewTaskAction()
+    {
+    }
+    public function editTaskAction()
+    {
+    }
+    public function deletedTaskAction()
+    {
+    }
+    
 }
 ?>
