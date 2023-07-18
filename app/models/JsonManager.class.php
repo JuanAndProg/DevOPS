@@ -8,18 +8,18 @@ abstract class JsonManager
     // Method to create json file id doesn't exist
     // Path to json file using  global ROOT_PATH set in index.php
 
-    /* Forma usando ROOT_PATH
-    protected string $filePath = ROOT_PATH . '/app/data/tasks.json'; 
-    Parche para poder seguir:*/
+    //Forma usando ROOT_PATH
+    static string $filePath = ROOT_PATH . '/app/models/data/tasks.json'; 
+    /* Parche para poder seguir:
     static string $filePath = 
-    "C:/Users/User/OneDrive/Escritorio/FS-PHP/DevOPS/app/models/data/tasks.json";
-
-
+    "C:/Users/User/OneDrive/Escritorio/FS-PHP/DevOPS/app/models/data/tasks.json"; */
     
-    
+    // Check if json exists, if not create data/ and put tasks.json in
     static function checkAndCreateJson(): void
     {
-        if (!file_exists(self::$filePath)) {   
+        if (!file_exists(self::$filePath)) {
+            // Create the data directory
+            mkdir(ROOT_PATH . "/app/models/data/");
             // Create file and set an empty array inside
             file_put_contents(self::$filePath,[]);
         }
