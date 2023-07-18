@@ -39,5 +39,8 @@ class ApplicationController extends Controller
     public function viewTaskAction()
     {
     }
+    public function editTaskAction()
+    {
+    }
 }
 ?>

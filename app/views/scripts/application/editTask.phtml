@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task Form</title>
+    <h2>ahora se ve el formulario, habría que mostrar la tarea seleccionada, añadir fecha de inicio, etc</h2>
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+</head>
+
+<body>
+    <div style="max-width: 50%; margin: 0 auto;">
+        <h1>Task Form</h1>
+        <form method="post" action="http://localhost/DevOPS/web/saved">
+            <caption>Your name</caption>
+            <fieldset>
+                <label for="author">Enter your name: <input id="author" name="author" type="text" placeholder="Task author" required /></label>
+            </fieldset>
+            <caption>Task data</caption>
+            <fieldset>
+                <label for="name">Enter the task title: <input id="name" name="name" placeholder="Walk the dog..." type="text" /></label>
+                <label for="description">More details?
+                    <textarea id="description" name="description" rows="1" cols="30" placeholder="Also talk with neighbors"></textarea>
+                </label>
+            </fieldset>
+            <fieldset> Your task is...
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="Pending" checked>Pending</label>
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="Active" required> Active </label>
+                <label class="radio-inline">
+                    <input type="radio" name="status" value="Finished"> Finished</label>
+            </fieldset>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+</body>
+
+</html>
