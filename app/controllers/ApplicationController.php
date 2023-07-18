@@ -21,7 +21,7 @@ class ApplicationController extends Controller
     // Method to createTask
 
     // TODO: Need validations if the form is filled or not
-    public function createdTaskAction(): void
+    public function savedTaskAction(): void
     {
         // Get info from the taskForm by POST method
         $author      = $_POST["author"];
