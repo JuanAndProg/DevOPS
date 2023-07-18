@@ -1,38 +1,27 @@
 <?php 
-Class Task
-{   
-    private int $id;
-    private static int $lastId = 0;
+Class Task {
+
     public string $author;
     public string $name;
     public string $description;
     public string $status;
-    // TODO: chequear el tipo de dato de startDate y endDate, porque DateTime no se puede pasar a Json
-    public DateTime $startDate;
-    public DateTime $endDate;
+    public string $startDate;
+    public ?string $endDate;
 
-    // Constructor
-
-    // TODO: Quizá sea mejor asignarle cadena vacía a description, ver como viene de formulario
-
-    public function __construct(string $author, string $name,?string $description = null, string $status = "Pending") {
-        //Puede ser $this->(No me anduvo) o self::(que sí lleva $) 
-        $this->id = ++self::$lastId;
-        $this->author = $author;
-        $this->name = $name;
-        $this->description = $description;
-        $this->status = $status;
-    }
-    
-    // Getters y Setters    
-    
-    //Get the value of id
-    
-    public function getId(): int
-    {
-        return $this->id;
-    }
-    
+public function __construct(string $author, string $name, ?string $description = null, string $status = "Pending", ?string $startDate = null, ?string $endDate = null)
+{
+    $this->author = $author;
+    $this->name = $name;
+    $this->description = $description;
+    $this->status = $status;
+    $this->startDate = $startDate ?: date('Y-m-d'); //Set the current date if not provided
+        
+        if ($status === "Finished") {
+            $this->endDate = date('Y-m-d');
+        } else {
+            $this->endDate = $endDate;
+        }
+}    
     // Get the value of $author
 
      public function getAuthor() : string
@@ -101,14 +90,14 @@ Class Task
 
     // Get the value of startDate
     
-    public function getStartDate(): DateTime
+    public function getStartDate(): string
     {
         return $this->startDate;
     }
 
     // Set the value of startDate
 
-    public function setStartDate(DateTime $startDate): self
+    public function setStartDate(string $startDate): self
     {
         $this->startDate = $startDate;
 
@@ -117,14 +106,14 @@ Class Task
 
     // Get the value of endDate
 
-    public function getEndDate(): DateTime
+    public function getEndDate(): string
     {
         return $this->endDate;
     }
 
     // Set the value of endDate
     
-    public function setEndDate(DateTime $endDate): self
+    public function setEndDate(string $endDate): self
     {
         $this->endDate = $endDate;
 
