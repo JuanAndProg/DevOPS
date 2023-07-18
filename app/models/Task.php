@@ -1,8 +1,8 @@
 <?php 
 Class Task
 {   
-    private int $id;
-    private static int $lastId = 0;
+    /* public int $id;
+    public static int $lastId = 0; */
     public string $author;
     public string $name;
     public string $description;
@@ -16,8 +16,7 @@ Class Task
     // TODO: Quizá sea mejor asignarle cadena vacía a description, ver como viene de formulario
 
     public function __construct(string $author, string $name,?string $description = null, string $status = "Pending") {
-        //Puede ser $this->(No me anduvo) o self::(que sí lleva $) 
-        $this->id = ++self::$lastId;
+        /* $this->id = ++self::$lastId; //Puede ser $this->(No me anduvo) o self::(que sí lleva $) */
         $this->author = $author;
         $this->name = $name;
         $this->description = $description;
@@ -26,12 +25,12 @@ Class Task
     
     // Getters y Setters    
     
-    //Get the value of id
+    /* //Get the value of id
     
     public function getId(): int
     {
         return $this->id;
-    }
+    } */
     
     // Get the value of $author
 
