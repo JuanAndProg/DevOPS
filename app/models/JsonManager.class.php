@@ -8,8 +8,7 @@ abstract class JsonManager
     // Method to create json file id doesn't exist
     // Path to json file using  global ROOT_PATH set in index.php
 
-    static string $filePath = ROOT_PATH . '/app/data/tasks.json'; 
-   
+    static string $filePath = ROOT_PATH . '/app/models/data/tasks.json';   
 
 
     

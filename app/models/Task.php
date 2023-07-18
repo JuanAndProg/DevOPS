@@ -1,8 +1,6 @@
 <?php 
 Class Task
 {   
-    private int $id;
-    private static int $lastId = 0;
     public string $author;
     public string $name;
     public string $description;
@@ -17,7 +15,7 @@ Class Task
 
     public function __construct(string $author, string $name,?string $description = null, string $status = "Pending") {
         //Puede ser $this->(No me anduvo) o self::(que sí lleva $) 
-        $this->id = ++self::$lastId;
+       
         $this->author = $author;
         $this->name = $name;
         $this->description = $description;
@@ -28,10 +26,7 @@ Class Task
     
     //Get the value of id
     
-    public function getId(): int
-    {
-        return $this->id;
-    }
+  
     
     // Get the value of $author
 
