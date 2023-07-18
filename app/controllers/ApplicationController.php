@@ -36,5 +36,8 @@ class ApplicationController extends Controller
    public function showListAction()
     {
     }
+    public function viewTaskAction()
+    {
+    }
 }
 ?>
