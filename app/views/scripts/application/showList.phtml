@@ -1,4 +1,35 @@
+<script src="https://cdn.tailwindcss.com"></script>
 <?php
+$data = JsonManager::readJson();
+?>
 
-$data= JsonManager::readJson();
-echo '<pre>'; var_dump($data); echo '</pre>';
+<div class="bg-gray-100 p-4">
+    <h2 class="text-xl font-bold mb-4">Task List</h2>
+    
+    <div class="mb-4">
+        <a href="http://localhost/DevOPS/web/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add a new task
+        </a>
+    </div>
+
+    <?php foreach ($data as $task): ?>
+<!--         //TODO añadir un if para lista de tareas vacía
+ -->        <div class="bg-white shadow rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2"><?= $task['name'] ?></h3>
+            <p class="text-gray-700"><?= $task['description'] ?></p>
+            <p class="text-gray-500 mt-2">
+                Author: <?= $task['author'] ?> | Status: <?= $task['status'] ?>
+            </p>
+            <p class="text-gray-500">
+                Start date: <?= $task['startDate'] ?>
+            </p>
+            
+            <?php if ($task['status'] === 'finished' && isset($task['endDate'])): ?>
+                <p class="text-gray-500">
+                    End date: <?= $task['endDate'] ?>
+                    <!-- revisar muestra de status finished -->
+                </p>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
