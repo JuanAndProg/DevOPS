@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Task Created</title>
+    <title>Created</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
@@ -11,30 +11,31 @@
     <div class="bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
         <div class="relative py-3 sm:max-w-xl sm:mx-auto">
             <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
-                <div class="max-w-md mx-auto text-center">
-                    <div class="flex items-center justify-center mb-4">
-                        <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <h1 class="text-3xl font-bold">Task Saved Successfully</h1>
-                    </div>
-                    <p class="text-gray-800 text-lg mt-2">What to do now?</p>
-                    <div class="flex justify-center mt-6 space-x-4">
-                        <a href="http://localhost/DevOPS/web/taskForm"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Add New Task
-                        </a>
-                        <a href="http://localhost/DevOPS/web/showList"
-                            class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            View All Tasks
-                        </a>
-                    </div>
+                <div class="max-w-md mx-auto">
+                    <h1 class="text-3xl font-bold text-center">Your task has been saved successfully</h1>
+                    <p class="mt-4 text-center text-gray-700" id="countdown">Redirecting to your Task list in 5 seconds...</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        var countdownElement = document.getElementById('countdown');
+        var countdownValue = 5;
+
+        function startCountdown() {
+            countdownElement.textContent = 'Redirecting to your Task List in ' + countdownValue + ' seconds...';
+            countdownValue--;
+
+            if (countdownValue >= 0) {
+                setTimeout(startCountdown, 1000);
+            } else {
+                window.location.href = "http://localhost/DevOPS/web/showList";
+            }
+        }
+
+        startCountdown();
+    </script>
 </body>
 
 </html>
