@@ -33,9 +33,10 @@ $data = JsonManager::readJson();
                     <?php endif; ?>
                 </div>
                 <div class="space-x-2">
-                    <a href="http://localhost/DevOPS/web/view" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="http://localhost/DevOPS/web/viewTask?taskId=<?= $taskId ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         View
                     </a>
+
                     <a href="http://localhost/DevOPS/web/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Update
                     </a>
