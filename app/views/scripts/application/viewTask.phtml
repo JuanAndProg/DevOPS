@@ -27,6 +27,18 @@
             $taskId = $_GET['taskId'];
             if (isset($data[$taskId])) {
                 $task = $data[$taskId];
+
+                if (isset($_POST['deleteConfirmed'])) {
+                    // Remove the task from the array
+                    unset($data[$taskId]);
+
+                    // Update the JSON file
+                    JsonManager::writeJson($data);
+
+                    // Redirect to the deleted page
+                    header("Location: http://localhost/DevOPS/web/deleted");
+                    exit;
+                }
         ?>
                 <div class="bg-white shadow rounded-lg p-4 mb-4 flex justify-between">
                     <div>
@@ -44,13 +56,16 @@
                             </p>
                         <?php endif; ?>
                     </div>
-                    <div class="space-x-2">
+                    <div class="space-x-2 flex items-center">
                         <a href="http://localhost/DevOPS/web/edit?taskId=<?= $taskId ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Update
                         </a>
-                        <button onclick="confirmDelete(<?= $taskId ?>)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                            Delete
-                        </button>
+                        <form method="post" onsubmit="return confirmDelete()">
+                            <input type="hidden" name="deleteConfirmed" value="1">
+                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
         <?php
@@ -64,10 +79,8 @@
     </div>
 
     <script>
-        function confirmDelete(taskId) {
-            if (confirm("Are you sure you want to delete this task?")) {
-                window.location.href = "http://localhost/DevOPS/web/deleted";
-            }
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this task?");
         }
     </script>
 </body>
