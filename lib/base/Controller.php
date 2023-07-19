@@ -11,20 +11,20 @@ class Controller
 	protected $_request = null;
 	// the current action
 	protected $_action = null;
-	
+
 	protected $_namedParameters = array();
-	
+
 	/**
 	 * initializes various things in the controller
 	 */
 	public function init()
 	{
 		$this->view = new View();
-		
+
 		$this->view->settings->action = $this->_action;
 		$this->view->settings->controller = strtolower(str_replace('Controller', '', get_class($this)));
 	}
-	
+
 	/**
 	 * These filters are run BEFORE the action is run
 	 */
@@ -32,7 +32,7 @@ class Controller
 	{
 		// no standard filers
 	}
-	
+
 	/**
 	 * These filters are run AFTER the action is run
 	 */
@@ -40,7 +40,7 @@ class Controller
 	{
 		// no standard filers
 	}
-	
+
 	/**
 	 * The main entry point into the controller execution path. The parameter 
 	 * taken is the action to execute.
@@ -51,26 +51,26 @@ class Controller
 	{
 		// stores the current action
 		$this->_action = $action;
-		
+
 		// initializes the controller
 		$this->init();
-		
+
 		// executes the before filters
 		$this->beforeFilters();
-		
+
 		// adds the action suffix to the function to call
-		$actionToCall = $action.'Action';
-		
+		$actionToCall = $action . 'Action';
+
 		// executes the action
 		$this->$actionToCall();
-		
+
 		// executes the after filterss
 		$this->afterFilters();
-		
+
 		// renders the view
 		$this->view->render($this->_getViewScript($action));
 	}
-	
+
 	/**
 	 * fetches the view script for the given action
 	 * @param string $action
@@ -85,7 +85,7 @@ class Controller
 		// returns the script to render
 		return $script;
 	}
-	
+
 	/**
 	 * The base url is used if the application is located in a subfolder. Use
 	 * this function when linking to things.
@@ -95,7 +95,7 @@ class Controller
 	{
 		return WEB_ROOT;
 	}
-	
+
 	/**
 	 * Fetches the current request
 	 * @return Request
@@ -106,10 +106,10 @@ class Controller
 		if ($this->_request == null) {
 			$this->_request = new Request();
 		}
-		
+
 		return $this->_request;
 	}
-	
+
 	/**
 	 * A way to access the current request parameters
 	 * @param string $key the key to look for
@@ -122,11 +122,11 @@ class Controller
 		if (isset($this->_namedParameters[$key])) {
 			return $this->_namedParameters[$key];
 		}
-		
+
 		// tests against the GET/POST parameters
 		return $this->getRequest()->getParam($key, $default);
 	}
-	
+
 	/**
 	 * Fetches all the current parameters
 	 * @return array a list of all the parameters
@@ -135,7 +135,7 @@ class Controller
 	{
 		return array_merge($this->getRequest()->getAllParams(), $this->_namedParameters);
 	}
-	
+
 	public function addNamedParameter($key, $value)
 	{
 		$this->_namedParameters[$key] = $value;

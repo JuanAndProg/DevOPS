@@ -28,8 +28,11 @@ class ApplicationController extends Controller
         $name        = $_POST["name"];
         $description = $_POST["description"];
         $status      = $_POST["status"];
+
         // Create a new instance of Task
+
         $task = new Task($author, $name, $description, $status);
+
         CreateTaskModel::saveTask($task);
     }
    // TODO: Redirect to a succes page or can be from the form page
