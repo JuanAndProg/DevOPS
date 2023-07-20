@@ -1,14 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Your task list is still empty</h1>
-    <a href="http://localhost/DevOPS/web/taskForm">
-        <button >Add a task!</button>
-    </a>
-</body>
-</html>
+<script src="https://cdn.tailwindcss.com"></script>
+<div class="bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+            <div class="max-w-md mx-auto">
+                <div class="flex items-center space-x-5">
+                    <h1 class="text-3xl font-bold text-gray-800">Lista de tareas</h1>
+                    <a href="http://localhost/DevOPS/web/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Add a new Task
+                    </a>
+                    <a href="http://localhost/DevOPS/web/showList" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Show Task List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

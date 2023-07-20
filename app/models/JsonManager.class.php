@@ -40,14 +40,15 @@ abstract class JsonManager
         file_put_contents(self::$filePath, $jsonData);
     }
     // Iterate $tasks looking for the task by its Id
-    static function getTaskById($taskId) : Task {
-        $tasks = self::readJson();
-        foreach ($tasks as $task) {
-            if ($task->getId() == $taskId) {
-                // Update task info
-                return $task;
-            }
+    static function getTaskById($taskId): ?Task {
+    $tasks = self::readJson();
+    foreach ($tasks as $task) {
+        if ($task['id'] == $taskId) {
+            return $task;
         }
     }
+    return null; // Return null if task with given ID is not found
+}
+
 }
 ?>
