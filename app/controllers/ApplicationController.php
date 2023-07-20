@@ -16,7 +16,9 @@ class ApplicationController extends Controller
     }
     public function taskFormAction()
     {
-        
+    }
+    public function askFormAction()
+    {
     }
     // Method to createTask
 
