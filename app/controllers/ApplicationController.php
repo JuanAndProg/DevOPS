@@ -52,6 +52,8 @@ class ApplicationController extends Controller
     public function deletedTaskAction()
     {
     }
-    
+    public function updatedAction()
+    {
+    }
 }
 ?>

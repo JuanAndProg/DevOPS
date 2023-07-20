@@ -11,8 +11,9 @@ $routes = array(
 	'/taskForm'	=> 'application#taskForm',
 	'/showList'	=> 'application#showList',
 	'/saved'	=> 'application#savedTask',
-	'/viewTask'		=> 'application#viewTask',
+	'/viewTask'	=> 'application#viewTask',
 	'/edit'		=> 'application#editTask',
-	'/deleted'	=>'application#deletedTask'
+	'/deleted'	=> 'application#deletedTask',
+	'/updated'	=> 'application#updated'
 	
 );
