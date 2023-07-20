@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Created</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
+        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+                <div class="max-w-md mx-auto">
+                    <h1 class="text-3xl font-bold text-center">Your task has been updated successfully</h1>
+                    <p class="mt-4 text-center text-gray-700" id="countdown">Redirecting to your Task list in 3 seconds...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var countdownElement = document.getElementById('countdown');
+        var countdownValue = 3;
+
+        function startCountdown() {
+            countdownElement.textContent = 'Redirecting to your Task List in ' + countdownValue + ' seconds...';
+            countdownValue--;
+
+            if (countdownValue >= 0) {
+                setTimeout(startCountdown, 1000);
+            } else {
+                window.location.href = "http://localhost/DevOPS/web/showList";
+            }
+        }
+
+        startCountdown();
+    </script>
+</body>
+
+</html>
