@@ -3,36 +3,82 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Task Form</title>
-    <h2>ahora se ve el formulario, habría que mostrar la tarea seleccionada, añadir fecha de inicio, etc</h2>
-    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <title>Edit Task</title>
 </head>
 
 <body>
     <div style="max-width: 50%; margin: 0 auto;">
-        <h1>Task Form</h1>
-        <form method="post" action="http://localhost/DevOPS/web/saved">
-            <caption>Your name</caption>
-            <fieldset>
-                <label for="author">Enter your name: <input id="author" name="author" type="text" placeholder="Task author" required /></label>
-            </fieldset>
-            <caption>Task data</caption>
-            <fieldset>
-                <label for="name">Enter the task title: <input id="name" name="name" placeholder="Walk the dog..." type="text" /></label>
-                <label for="description">More details?
-                    <textarea id="description" name="description" rows="1" cols="30" placeholder="Also talk with neighbors"></textarea>
-                </label>
-            </fieldset>
-            <fieldset> Your task is...
-                <label class="radio-inline">
-                    <input type="radio" name="status" value="Pending" checked>Pending</label>
-                <label class="radio-inline">
-                    <input type="radio" name="status" value="Active" required> Active </label>
-                <label class="radio-inline">
-                    <input type="radio" name="status" value="Finished"> Finished</label>
-            </fieldset>
-            <input type="submit" value="Submit" />
-        </form>
+        <h1>Edit Task</h1>
+        <?php
+        $data = JsonManager::readJson();
+
+        if (isset($_GET['taskId'])) {
+            $taskId = $_GET['taskId'];
+            $task = isset($data[$taskId]) ? $data[$taskId] : null;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateTask'])) {
+            $author = $_POST['author'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $status = $_POST['status'];
+            $startDate = $_POST['startDate'];
+
+            if ($status === 'Finished') {
+                $endDate = date('Y-m-d');
+            } else {
+                $endDate = null;
+            }
+
+            if ($task) {
+                $data[$taskId] = [
+                    'author' => $author,
+                    'name' => $name,
+                    'description' => $description,
+                    'status' => $status,
+                ];
+
+                JsonManager::writeJson($data);
+
+                header("Location: http://localhost/DevOPS/web/viewTask?taskId=$taskId");
+                exit;
+            }
+        }
+
+        if ($task) :
+        ?>
+            <form method="post" action="http://localhost/DevOPS/web/edit?taskId=<?= $taskId ?>">
+                <caption>Your name</caption>
+                <fieldset>
+                    <label for="author">Enter your name: <input id="author" name="author" type="text" placeholder="Task author" required value="<?= $task['author'] ?>" /></label>
+                </fieldset>
+                <caption>Task data</caption>
+                <fieldset>
+                    <label for="name">Enter the task title: <input id="name" name="name" placeholder="Walk the dog..." type="text" value="<?= $task['name'] ?>" /></label>
+                    <label for="description">More details?
+                        <textarea id="description" name="description" rows="1" cols="30" placeholder="Also talk with neighbors"><?= $task['description'] ?></textarea>
+                    </label>
+                </fieldset>
+                <fieldset>
+                    Your task is...
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="Pending" <?= strtolower($task['status']) == 'pending' ? 'checked' : '' ?>>Pending</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="Active" <?= strtolower($task['status']) == 'active' ? 'checked' : '' ?> required>Active</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="status" value="Finished" <?= strtolower($task['status']) == 'finished' ? 'checked' : '' ?>>Finished</label>
+                </fieldset>
+                <fieldset>
+                    <label for="startDate">Start date: <input id="startDate" name="startDate" type="date" value="<?= $task['startDate'] ?>" required /></label>
+                    <!-- Puedes agregar el campo endDate para mostrarlo en la página de edición -->
+                    <!-- <label for="endDate">End date: <input id="endDate" name="endDate" type="date" value="<?= $task['endDate'] ?>" /></label> -->
+                </fieldset>
+                <input type="hidden" name="updateTask" value="1">
+                <input type="submit" value="Update" />
+            </form>
+        <?php else : ?>
+            <p>No task selected.</p>
+        <?php endif; ?>
     </div>
 </body>
 
