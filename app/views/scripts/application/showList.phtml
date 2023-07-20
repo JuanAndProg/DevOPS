@@ -1,4 +1,12 @@
-<script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
 <?php
 $data = JsonManager::readJson();
 if (isset($_POST['deleteTaskId'])) {
@@ -14,8 +22,9 @@ if (isset($_POST['deleteTaskId'])) {
     }
 }
 ?>
+<body class="bg-gray-100">
 <div class="bg-gray-100 p-4">
-    <h2 class="text-xl font-bold mb-4">Task List</h2>
+<h1 class="text-3xl font-bold text-center">Task List</h1>
     
     <div class="mb-4">
         <a href="http://localhost/DevOPS/web/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -30,18 +39,10 @@ if (isset($_POST['deleteTaskId'])) {
             <div class="bg-white shadow rounded-lg p-4 mb-4 flex items-center justify-between">
                 <div>
                     <h3 class="text-lg font-bold mb-2"><?= $task['name'] ?></h3>
-                    <p class="text-gray-700"><?= $task['description'] ?></p>
-                    <p class="text-gray-500 mt-2">
+                        <p class="text-gray-500 mt-2">
                         Author: <?= $task['author'] ?> | Status: <?= $task['status'] ?>
-                    </p>
-                    <p class="text-gray-500">
-                        Start date: <?= $task['startDate'] ?>
-                    </p>
-                    <?php if (isset($task['endDate'])): ?>
-                        <p class="text-gray-500">
-                            End date: <?= $task['endDate'] ?>
                         </p>
-                    <?php endif; ?>
+                    
                 </div>
                 <div class="space-x-2 flex items-center">
                     <form method="post" action="http://localhost/DevOPS/web/viewTask?taskId=<?= $taskId ?>">
@@ -50,7 +51,7 @@ if (isset($_POST['deleteTaskId'])) {
                             View
                         </button>
                     </form>
-                    <a href="http://localhost/DevOPS/web/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="http://localhost/DevOPS/web/edit?taskId=<?= $taskId ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Update
                     </a>
                     <form method="post" action="">
@@ -64,6 +65,7 @@ if (isset($_POST['deleteTaskId'])) {
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
-
+</body>
+</html>
 
 
