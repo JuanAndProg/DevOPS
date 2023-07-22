@@ -7,7 +7,6 @@
 $routes = array(
 	// TODO: Make the landing page app/views/scripts/application/index.phtml
 	'/'			=> 'application#index',
-	'/ask'		=> 'application#askForm',
 	'/taskForm'	=> 'application#taskForm',
 	'/showList'	=> 'application#showList',
 	'/saved'	=> 'application#savedTask',
