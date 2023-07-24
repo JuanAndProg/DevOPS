@@ -11,7 +11,7 @@ class TaskModel
     static string $filePath = ROOT_PATH . '/app/models/data/tasks.json';
     
     // Check if json exists, if not create data/ and put tasks.json in
-    static function checkAndCreateJson(): void
+     static function checkAndCreateJson(): void
     {
         if (!file_exists(self::$filePath)) {
             // Create the data directory
@@ -23,6 +23,7 @@ class TaskModel
     // Read Json File and put it in an array
     static function getAllTasks()
     {
+        self::checkAndCreateJson();
         $jsonContent = file_get_contents(ROOT_PATH . '/app/models/data/tasks.json');
         return json_decode($jsonContent, true);
     } 
@@ -62,6 +63,12 @@ static function saveTask(Task $task): void
         $tasks[] = $task;
         // Convert back to JSON
         TaskModel::writeJson($tasks);
+    }
+    public function deleteTask($taskId): void
+    {
+        $tasks = $this->getAllTasks();
+        unset($tasks[$taskId]);
+        $this->writeJson($tasks);
     }
 }
 ?>

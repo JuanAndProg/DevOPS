@@ -19,8 +19,10 @@
         </div>
 
     
-        
-    <?php foreach ($this->tasks as $taskId => $task): ?>
+        <?php if (empty($tasks)){ ?>
+        <p class="text-gray-700 text-lg">No tasks created yet.</p>
+        <?php } else { ?>    
+    <?php foreach ($this->tasks as $taskId => $task) { ?>
         <div class="bg-white shadow rounded-lg p-4 mb-4 flex flex-col md:flex-row md:items-center justify-between">
             <div class="md:flex-grow">
                 <h3 class="text-lg font-bold mb-2"><?= $task['name'] ?></h3>
@@ -49,9 +51,9 @@
                 </form>
             </div>
         </div>
-        <?php endforeach; ?>
+        <?php } 
+            } ?>
 
     </div>
 </body>
-
 </html>
