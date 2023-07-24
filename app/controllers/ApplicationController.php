@@ -53,9 +53,23 @@ class ApplicationController extends Controller
     public function editTaskAction()
     {
     }
-    public function deletedTaskAction()
-    {
-    }
+
+    public function deletedTaskAction(){
+        $data = TaskModel::readJson();
+        if (isset($_POST['deleteTaskId'])) {
+            $taskIdToDelete = $_POST['deleteTaskId'];
+            if (isset($data[$taskIdToDelete])) {
+                // Remove the task from the array
+                unset($data[$taskIdToDelete]);
+                // Update the JSON file
+                TaskModel::writeJson($data);
+                // Redirect to the deletedTask page
+                header("Location: http://localhost/DevOPS/web/deleted");
+                exit;
+            }
+        }
+    
+}
     public function updatedAction()
     {
     }
