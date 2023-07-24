@@ -40,6 +40,12 @@ class ApplicationController extends Controller
    
     public function showListAction()
     {
+        $taskModel = new TaskModel();
+        $tasks = $taskModel->getAllTasks();
+
+        // Pasamos los datos a la vista
+        $this->view->tasks = $tasks;
+        
     }
 
     public function viewTaskAction()
