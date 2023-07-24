@@ -1,7 +1,6 @@
-<?php 
-// Not needed to require, autoloader set
-require_once 'Task.php';
-abstract class JsonManager
+<?php
+
+class TaskModel 
 {
     static array $tasks;
     
@@ -22,7 +21,11 @@ abstract class JsonManager
         }
     }
     // Read Json File and put it in an array
-    
+    static function getAllTasks()
+    {
+        $jsonContent = file_get_contents(ROOT_PATH . '/app/models/data/tasks.json');
+        return json_decode($jsonContent, true);
+    } 
     static function readJson() : array {
         // Get the content from JSON file
         $jsonString = file_get_contents(self::$filePath);
@@ -49,6 +52,16 @@ abstract class JsonManager
     }
     return null; // Return null if task with given ID is not found
 }
-
+static function saveTask(Task $task): void
+    {
+        // If Json doesn't exist, create it
+        TaskModel::checkAndCreateJson();
+        // Get the content from JSON file
+        $tasks = TaskModel::readJson(); // Added $tasks before the =
+        // Add a new task into the array
+        $tasks[] = $task;
+        // Convert back to JSON
+        TaskModel::writeJson($tasks);
+    }
 }
 ?>

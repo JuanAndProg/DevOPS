@@ -6,8 +6,6 @@
  */
 
 // Not needed to require, autoloader set
-require_once ROOT_PATH .'/app/models/CreateTaskModel.class.php';
-
 class ApplicationController extends Controller 
 {
     // Empty method to get the Index page  // TODO: Check the previous comment
@@ -35,7 +33,7 @@ class ApplicationController extends Controller
 
         $task = new Task($author, $name, $description, $status);
 
-        CreateTaskModel::saveTask($task);
+        TaskModel::saveTask($task);
     }
    
     public function showListAction()
