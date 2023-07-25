@@ -21,7 +21,7 @@
         </div>
 
         <?php
-        $data = JsonManager::readJson();
+        $data = TaskModel::readJson(TaskModel::$filePath);
 
         if (isset($_GET['taskId'])) {
             $taskId = $_GET['taskId'];
@@ -33,7 +33,7 @@
                     unset($data[$taskId]);
 
                     // Update the JSON file
-                    JsonManager::writeJson($data);
+                    TaskModel::writeJson($data);
 
                     // Redirect to the deleted page
                     header("Location: http://localhost/DevOPS/web/deleted");

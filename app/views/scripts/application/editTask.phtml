@@ -8,22 +8,10 @@
 </head>
 
 <?php
-$data = JsonManager::readJson();
-if (isset($_POST['deleteTaskId'])) {
-    $taskIdToDelete = $_POST['deleteTaskId'];
-    if (isset($data[$taskIdToDelete])) {
-        // Remove the task from the array
-        unset($data[$taskIdToDelete]);
-        // Update the JSON file
-        JsonManager::writeJson($data);
-        // Redirect to the deletedTask page
-        header("Location: http://localhost/DevOPS/web/deleted");
-        exit;
-    }
-}
+$data = TaskModel::readJson(TaskModel::$filePath);
 
 // Supongamos que ya tienes la lista de tareas en un array llamado $data
-$data = JsonManager::readJson();
+$data = TaskModel::readJson(TaskModel::$filePath);
 // Verificar si se ha pasado el parámetro taskId en la URL
 if (isset($_GET['taskId'])) {
     // Obtener el ID de la tarea seleccionada
@@ -65,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'endDate' => $endDate
         ];
         // Guardar los cambios en el archivo JSON
-        JsonManager::writeJson($data);
+        TaskModel::writeJson($data);
         // Redirigir a la página de lista de tareas
         header("Location: http://localhost/DevOPS/web/updated");
         exit;
@@ -99,17 +87,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-4">
                 <span class="block text-gray-700 font-bold mb-2">Your task is...</span>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Pending" <?= strtolower($task['status']) == 'pending' ? 'checked' : '' ?>
+                    <input type="radio" name="status" value="Pending" <?= strtolower($task['status'] ?? '') == 'pending' ? 'checked' : '' ?>
                         class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Pending</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Active" <?= strtolower($task['status']) == 'active' ? 'checked' : '' ?>
+                    <input type="radio" name="status" value="Active" <?= strtolower($task['status'] ?? '') == 'active' ? 'checked' : '' ?>
                         class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Active</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Finished" <?= strtolower($task['status']) == 'finished' ? 'checked' : '' ?>
+                    <input type="radio" name="status" value="Finished" <?= strtolower($task['status'] ?? '') == 'finished' ? 'checked' : '' ?>
                         class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Finished</span>
                 </label>
