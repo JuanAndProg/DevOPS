@@ -54,15 +54,13 @@ class TaskModel
     /**
      * Iterate $tasks looking for the task by its Id
      * @param int $taskId 
-     * @return Task|null returns an object Task or null if ID is not found 
+     * @return array|null returns an array with the task or null if ID is not found 
      */
-    static function getTaskById($taskId): ?Task
+    static function getTaskById($taskId): ?array
     {
         $tasks = self::readJson(self::$filePath);
-        foreach ($tasks as $task) {
-            if ($task['id'] == $taskId) {
-                return $task;
-            }
+        if (isset($tasks[$taskId])) {
+            return $tasks[$taskId];
         }
         return null; // Return null if task with given ID is not found
     }
@@ -85,11 +83,11 @@ class TaskModel
      * Deletes a given Task
      * @param int $taskId
      */
-    public function deleteTask($taskId): void
+    static function deleteTask($taskId): void
     {
-        $tasks = $this->getAllTasks();
+        $tasks = TaskModel::getAllTasks();
         unset($tasks[$taskId]);
-        $this->writeJson($tasks);
+        TaskModel::writeJson($tasks);
     }
 }
 ?>
