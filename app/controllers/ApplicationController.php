@@ -43,12 +43,34 @@ class ApplicationController extends Controller
         $taskModel = new TaskModel();
         $tasks = $taskModel->getAllTasks();
 
-        // Pasamos los datos a la vista
+        // Sending data to the view
         $this->view->tasks = $tasks;
     }
 
     public function viewTaskAction()
     {
+        if (isset($_GET['taskId'])) {
+            $taskId = $_GET['taskId'];
+            $task = TaskModel::getTaskById($taskId);
+            if ($task !== null) {
+
+                // Sending data to the view
+                $this->view->task = $task;
+
+                if (isset($_POST['deleteConfirmed'])) {
+                    // Remove the task from the array
+                    TaskModel::deleteTask($taskId);
+
+                    // Redirect to the deleted page
+                    header("Location: http://localhost/DevOPS/web/deleted");
+                    exit;
+                }
+            } else {
+                echo '<p class="text-red-500">Task not found.</p>';
+            }
+        } else {
+            echo '<p class="text-red-500">No task selected.</p>';
+        }
     }
 
     public function editTaskAction()
