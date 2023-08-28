@@ -1,16 +1,18 @@
-<main class="flex-grow overflow-y-auto">
+<?php
+$url = $this->baseUrl();
+$pagedTasks = $this->pagedTasks;
+$totalTasks = $this->totalTasks;
+$totalPages = $this->totalPages;
+$currentPage = $this->currentPage;
+?>
+<div class="flex-grow">
     <h1 class="text-3xl font-bold text-center p-3">Task List</h1>
     <div class="mb-4">
         <a href="<?= $url ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4">
             Add a new task
         </a>
     </div>
-    <?php 
-    $url = $this->baseUrl();
-    $pagedTasks = $this->pagedTasks;
-    $totalTasks = $this->totalTasks;
-    $totalPages = $this->totalPages;
-    $currentPage = $this->currentPage;
+    <?php
     if ($totalTasks > 0) {
 
         foreach ($pagedTasks as $taskId => $task) {
@@ -74,4 +76,4 @@
             </div>
     <?php }
     } ?>
-</main>
+</div>
