@@ -1,29 +1,13 @@
-<body>
-    <div class="bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
-        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
-                <div class="max-w-md mx-auto">
-                    <h1 class="text-3xl font-bold text-center">Your task has been saved successfully</h1>
-                    <p class="mt-4 text-center text-gray-700" id="countdown">Redirecting to your Task list in 3 seconds...</p>
-                </div>
+<div class="flex items-center justify-center h-full sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+            <div class="max-w-md mx-auto">
+                <h1 class="text-3xl font-bold text-center">Your task has been saved successfully</h1>
+                <p class="mt-4 text-center text-gray-700" id="countdown">Redirecting to your Task list in 3 seconds...</p>
             </div>
         </div>
     </div>
-
-    <script>
-        var countdownElement = document.getElementById('countdown');
-        var countdownValue = 3;
-
-        function startCountdown() {
-            countdownElement.textContent = 'Redirecting to your Task List in ' + countdownValue + ' seconds...';
-            countdownValue--;
-
-            if (countdownValue >= 0) {
-                setTimeout(startCountdown, 1000);
-            } else {
-                window.location.href = "<?= $this->baseUrl() ?>/showList";
-            }
-        }
-
-        startCountdown();
-    </script>
+</div>
+<?php 
+$url = $this->baseUrl();
+include '../web/javascripts/confirmed.phtml'; ?>
