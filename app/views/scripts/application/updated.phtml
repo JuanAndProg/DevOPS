@@ -21,7 +21,7 @@
             if (countdownValue >= 0) {
                 setTimeout(startCountdown, 1000);
             } else {
-                window.location.href = "<?= $this->view->baseUrl() ?>/showList";
+                window.location.href = "<?= $this->baseUrl() ?>/showList";
             }
         }
 
