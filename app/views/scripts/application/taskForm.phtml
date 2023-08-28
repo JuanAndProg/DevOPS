@@ -1,7 +1,7 @@
 <body class="bg-gray-100">
 <div class="bg-gray-100 p-4 max-w-md mx-auto py-6">
         <h1 class="text-3xl font-bold text-center">Task Form</h1>
-        <form class="mt-8 bg-white shadow rounded-lg p-4 mb-4" method="post" action="http://localhost/DevOPS/web/saved">
+        <form class="mt-8 bg-white shadow rounded-lg p-4 mb-4" method="post" action="<?= $this->baseUrl() ?>/saved">
             <div class="mb-4">
                 <label for="author" class="block text-gray-700 font-bold mb-2">Your name:</label>
                 <input id="author" name="author" type="text" placeholder="Task author" required

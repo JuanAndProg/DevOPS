@@ -55,12 +55,11 @@ class ApplicationController extends Controller
 
         $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $start = ($currentPage - 1) * $tasksPerPage;
-        $end = $start + $tasksPerPage;
+        // $end = $start + $tasksPerPage;
         $pagedTasks = array_intersect_key($tasks, array_flip(array_slice(array_keys($tasks), $start, $tasksPerPage)));
 
         // Sending data to the view
-        $this->view->tasks = $tasks;
-        $this->view->tasks = $pagedTasks;
+        $this->view->pagedTasks = $pagedTasks;
         $this->view->totalTasks = $totalTasks;
         $this->view->totalPages = $totalPages;
         $this->view->currentPage = $currentPage;
