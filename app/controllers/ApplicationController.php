@@ -29,16 +29,9 @@ class ApplicationController extends Controller
         $description = $_POST["description"];
         $status      = $_POST["status"];
 
-        // Create an array to represent a task
+        // Create a new instance of Task
 
-        $task = [
-            'author' => $author,
-            'name' => $name,
-            'description' => $description,
-            'status' => $status,
-            'startDate' => date('Y-m-d'),
-            'endDate' => null
-        ];
+        $task = new Task($author, $name, $description, $status);
 
         TaskModel::saveTask($task);
     }
@@ -47,22 +40,11 @@ class ApplicationController extends Controller
      */
     public function showListAction(): void
     {
-        $tasks = TaskModel::getAllTasks();
-
-        $tasksPerPage = 4;
-        $totalTasks = count($tasks);
-        $totalPages = ceil($totalTasks / $tasksPerPage);
-
-        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $start = ($currentPage - 1) * $tasksPerPage;
-        // $end = $start + $tasksPerPage;
-        $pagedTasks = array_intersect_key($tasks, array_flip(array_slice(array_keys($tasks), $start, $tasksPerPage)));
+        $taskModel = new TaskModel();
+        $tasks = $taskModel->getAllTasks();
 
         // Sending data to the view
-        $this->view->pagedTasks = $pagedTasks;
-        $this->view->totalTasks = $totalTasks;
-        $this->view->totalPages = $totalPages;
-        $this->view->currentPage = $currentPage;
+        $this->view->tasks = $tasks;
     }
     /**
      * Method to show the task using taskModel and the $view Controller property
@@ -74,14 +56,14 @@ class ApplicationController extends Controller
             $task = TaskModel::getTaskById($taskId);
             if ($task !== null) {
 
-                $this->view->task = $task; // Sending data to the view
-                $this->view->taskId = $taskId; // Pass the taskId to the view
+                // Sending data to the view
+                $this->view->task = $task;
 
                 if (isset($_POST['deleteConfirmed'])) {
                     // Remove the task from the array
                     TaskModel::deleteTask($taskId);
                     // Redirect to the deleted page
-                    header("Location: " . $this->view->baseUrl() . '/deleted');
+                    header("Location: http://localhost/DevOPS/web/deleted");
                     exit;
                 }
             } else {
@@ -96,39 +78,44 @@ class ApplicationController extends Controller
      */
     public function editTaskAction()
     {
+        $data = TaskModel::readJson(TaskModel::$filePath);
         // Check if taskId is in the URL
         if (isset($_GET['taskId'])) {
             // Get ID from the selected task
             $taskId = $_GET['taskId'];
             // Get the data of selected task from the tasks list
-            $task = TaskModel::getTaskById($taskId);
-            if ($task !== null) {
+            $task = isset($data[$taskId]) ? $data[$taskId] : null;
 
-                $this->view->task = $task; // Sending data to the view
-                $this->view->taskId = $taskId; // Pass the taskId to the view
+            // Sending data to the view
+            $this->view->task = $task;
+        }
+        if ($task) {
 
-                if (isset($_POST['updateTask'])) {
-                    $author = $_POST['author'];
-                    $name = $_POST['name'];
-                    $description = $_POST['description'];
-                    $status = $_POST['status'];
+            // Check if the edition forms has been sent
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // Get info from the form
+                $author = $_POST['author'];
+                $name = $_POST['name'];
+                $description = $_POST['description'];
+                $status = $_POST['status'];
 
-                    // Get start date if present
-                    $startDate = isset($task['startDate']) ? $task['startDate'] : null;
+                // Get start date if present
+                $startDate = isset($task['startDate']) ? $task['startDate'] : null;
 
-                    // Check if status changed to "finished" and update finish date
-                    if ($task && $task['status'] !== $status) {
-                        if ($status === 'Finished') {
-                            $endDate = date('Y-m-d'); // Current date
-                        } else {
-                            $endDate = null;
-                        }
+                // Check if status changed to "finished" and update finish date
+                if ($task && $task['status'] !== $status) {
+                    if ($status === 'Finished') {
+                        $endDate = date('Y-m-d'); // Current date
                     } else {
-                        $endDate = isset($task['endDate']) ? $task['endDate'] : null;
+                        $endDate = null;
                     }
+                } else {
+                    $endDate = isset($task['endDate']) ? $task['endDate'] : null;
+                }
 
-                    // Update info in selected task
-                    $updatedTaskData = [
+                // Update info in selected task
+                if ($task) {
+                    $data[$taskId] = [
                         'author' => $author,
                         'name' => $name,
                         'description' => $description,
@@ -136,33 +123,35 @@ class ApplicationController extends Controller
                         'startDate' => $startDate,
                         'endDate' => $endDate
                     ];
-                    TaskModel::updateTask($taskId, $updatedTaskData);
-
-                    // Redirect to the updated page
-                    header("Location: " . $this->view->baseUrl() . '/updated');
+                    // Save changes in Json file
+                    TaskModel::writeJson($data);
+                    // Redirection to show list page trough updated page
+                    header("Location: http://localhost/DevOPS/web/updated");
                     exit;
                 }
-            } else {
-                echo '<p class="text-red-500">Task not found.</p>';
-                exit;
             }
         } else {
-            echo '<p class="text-red-500">No task selected.</p>';
+            echo '<p class="text-red-500">No task found.</p>';
+            exit;
         }
     }
-
     /**
-     * Method to delete a task using taskModel
+     * Method to edit a task using taskModel
      */
     public function deletedTaskAction()
     {
+        $data = TaskModel::readJson(TaskModel::$filePath);
         if (isset($_POST['deleteTaskId'])) {
             $taskIdToDelete = $_POST['deleteTaskId'];
-            TaskModel::deleteTask($taskIdToDelete);
-
-            // Redirect to the deletedTask page
-            header("Location: " . $this->view->baseUrl() . '/deleted');
-            exit;
+            if (isset($data[$taskIdToDelete])) {
+                // Remove the task from the array
+                unset($data[$taskIdToDelete]);
+                // Update the JSON file
+                TaskModel::writeJson($data);
+                // Redirect to the deletedTask page
+                header("Location: http://localhost/DevOPS/web/deleted");
+                exit;
+            }
         }
     }
     public function updatedAction()

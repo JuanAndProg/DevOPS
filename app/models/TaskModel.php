@@ -3,8 +3,10 @@
 class TaskModel
 {
     static array $tasks;
-    
+
+    // Method to create json file id doesn't exist
     // Path to json file using  global ROOT_PATH set in index.php
+
     static string $filePath = ROOT_PATH . '/app/models/data/tasks.json';
 
     // Check if json exists, if not create data/ and put tasks.json in
@@ -17,18 +19,24 @@ class TaskModel
             file_put_contents(self::$filePath, []);
         }
     }
+    // Read Json File and put it in an array
+    static function getAllTasks()
+    {
+        self::checkAndCreateJson();
+        $jsonContent = file_get_contents(self::$filePath);
+        return json_decode($jsonContent, true);
+    }
     /**
      * Method to read a given Json and return an array with the info in it
      * @param string $filePath The path to the JSON file.
      * @return array $data The associative array containing the data from the JSON file.
      */
-    static function getAllTasks()
+    static function readJson(string $filePath): array
     {
-        self::checkAndCreateJson();
         // Get the content from JSON file
-        $jsonContent = file_get_contents(self::$filePath);
+        $jsonString = file_get_contents($filePath);
         // Convert Json content to an associative array
-        $data = json_decode($jsonContent, true);
+        $data = json_decode($jsonString, true);
         // Return an empty array if decoding fails or the JSON is empty
         return $data ?: [];
     }
@@ -50,7 +58,7 @@ class TaskModel
      */
     static function getTaskById($taskId): ?array
     {
-        $tasks = self::getAllTasks();
+        $tasks = self::readJson(self::$filePath);
         if (isset($tasks[$taskId])) {
             return $tasks[$taskId];
         }
@@ -58,43 +66,28 @@ class TaskModel
     }
     /**
      * Save a Task in Json using the rest of the TaskModel methods
-     * @param array $task
+     * @param Task $task
      */
-    static function saveTask(array $task): void
+    static function saveTask(Task $task): void
     {
         // If Json doesn't exist, creates it
         TaskModel::checkAndCreateJson();
         // Get the content from JSON file
-        $tasks = TaskModel::getAllTasks();
+        $tasks = TaskModel::readJson(self::$filePath);
         // Add a new task into the array
         $tasks[] = $task;
         // Convert back to JSON
         TaskModel::writeJson($tasks);
     }
     /**
-     * Updates a given Task
-     * @param int $taskId | 
-     * @param array $updatedData
-     */
-    static function updateTask(int $taskId, array $updatedData): void
-    {
-        $tasks = TaskModel::getAllTasks();
-
-        if (isset($tasks[$taskId])) {
-            // Merge updated data with existing task data
-            $updatedTask = array_merge($tasks[$taskId], $updatedData);
-            $tasks[$taskId] = $updatedTask;
-            TaskModel::writeJson($tasks);
-        }
-    }
-    /**
      * Deletes a given Task
      * @param int $taskId
      */
-    static function deleteTask(int $taskId): void
+    static function deleteTask($taskId): void
     {
         $tasks = TaskModel::getAllTasks();
         unset($tasks[$taskId]);
         TaskModel::writeJson($tasks);
     }
 }
+?>
