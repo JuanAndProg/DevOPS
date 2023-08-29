@@ -1,115 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Task</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-
-<?php
-$data = TaskModel::readJson(TaskModel::$filePath);
-
-// Supongamos que ya tienes la lista de tareas en un array llamado $data
-$data = TaskModel::readJson(TaskModel::$filePath);
-// Verificar si se ha pasado el parámetro taskId en la URL
-if (isset($_GET['taskId'])) {
-    // Obtener el ID de la tarea seleccionada
-    $taskId = $_GET['taskId'];
-    // Obtener la información de la tarea seleccionada de la lista de tareas
-    $task = isset($data[$taskId]) ? $data[$taskId] : null;
-}
-
-// Verificar si se ha enviado el formulario de edición
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Obtener los datos del formulario
-    $author = $_POST['author'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $status = $_POST['status'];
-
-    // Obtener la fecha de inicio original si está presente
-    $startDate = isset($task['startDate']) ? $task['startDate'] : null;
-
-    // Verificar si el estado cambia a "Finished" y actualizar la fecha de finalización
-    if ($task && $task['status'] !== $status) {
-        if ($status === 'Finished') {
-            $endDate = date('Y-m-d'); // Fecha actual
-        } else {
-            $endDate = null;
-        }
-    } else {
-        $endDate = isset($task['endDate']) ? $task['endDate'] : null;
-    }
-
-    // Actualizar los datos de la tarea seleccionada
-    if ($task) {
-        $data[$taskId] = [
-            'author' => $author,
-            'name' => $name,
-            'description' => $description,
-            'status' => $status,
-            'startDate' => $startDate,
-            'endDate' => $endDate
-        ];
-        // Guardar los cambios en el archivo JSON
-        TaskModel::writeJson($data);
-        // Redirigir a la página de lista de tareas
-        header("Location: http://localhost/DevOPS/web/updated");
-        exit;
-    }
-}
-?>
+<?php $task = $this->task; ?>
 
 <body class="bg-gray-100">
     <div class="bg-gray-100 p-4 max-w-md mx-auto py-6">
         <h1 class="text-3xl font-bold text-center">Edit Task</h1>
-        <?php if ($task): ?>
         <form class="mt-8 bg-white shadow rounded-lg p-4 mb-4" method="post" action="">
             <div class="mb-4">
                 <label for="author" class="block text-gray-700 font-bold mb-2">Your name:</label>
-                <input id="author" name="author" type="text" placeholder="Task author" required
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="<?= $task['author'] ?>">
+                <input id="author" name="author" type="text" placeholder="Task author" required class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?= $task['author'] ?>">
             </div>
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-bold mb-2">Enter the task title:</label>
-                <input id="name" name="name" type="text" placeholder="Walk the dog..." required
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="<?= $task['name'] ?>">
+                <input id="name" name="name" type="text" placeholder="Walk the dog..." required class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?= $task['name'] ?>">
             </div>
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-bold mb-2">More details?</label>
-                <textarea id="description" name="description" rows="1"
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Also talk with neighbors"><?= $task['description'] ?></textarea>
+                <textarea id="description" name="description" rows="1" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Also talk with neighbors"><?= $task['description'] ?></textarea>
             </div>
             <div class="mb-4">
                 <span class="block text-gray-700 font-bold mb-2">Your task is...</span>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Pending" <?= strtolower($task['status'] ?? '') == 'pending' ? 'checked' : '' ?>
-                        class="form-radio text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="status" value="Pending" <?= strtolower($task['status'] ?? '') == 'pending' ? 'checked' : '' ?> class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Pending</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Active" <?= strtolower($task['status'] ?? '') == 'active' ? 'checked' : '' ?>
-                        class="form-radio text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="status" value="Active" <?= strtolower($task['status'] ?? '') == 'active' ? 'checked' : '' ?> class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Active</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Finished" <?= strtolower($task['status'] ?? '') == 'finished' ? 'checked' : '' ?>
-                        class="form-radio text-blue-500 focus:ring-blue-500">
+                    <input type="radio" name="status" value="Finished" <?= strtolower($task['status'] ?? '') == 'finished' ? 'checked' : '' ?> class="form-radio text-blue-500 focus:ring-blue-500">
                     <span class="ml-2">Finished</span>
                 </label>
             </div>
             <div class="flex justify-center">
-                <input type="submit" value="Update"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <input type="submit" value="Update" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             </div>
         </form>
-        <?php else: ?>
-        <p class="text-center">No task selected.</p>
-        <?php endif; ?>
     </div>
 </body>
 
