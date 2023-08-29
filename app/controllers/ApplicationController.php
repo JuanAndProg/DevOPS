@@ -62,7 +62,6 @@ class ApplicationController extends Controller
                 if (isset($_POST['deleteConfirmed'])) {
                     // Remove the task from the array
                     TaskModel::deleteTask($taskId);
-
                     // Redirect to the deleted page
                     header("Location: http://localhost/DevOPS/web/deleted");
                     exit;
