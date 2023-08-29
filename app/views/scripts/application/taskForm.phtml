@@ -1,44 +1,35 @@
-<body class="bg-gray-100">
-<div class="bg-gray-100 p-4 max-w-md mx-auto py-6">
-        <h1 class="text-3xl font-bold text-center">Task Form</h1>
-        <form class="mt-8 bg-white shadow rounded-lg p-4 mb-4" method="post" action="<?= $this->baseUrl() ?>/saved">
-            <div class="mb-4">
-                <label for="author" class="block text-gray-700 font-bold mb-2">Your name:</label>
-                <input id="author" name="author" type="text" placeholder="Task author" required
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700 font-bold mb-2">Enter the task title:</label>
-                <input id="name" name="name" type="text" placeholder="Walk the dog..." required
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="mb-4">
-                <label for="description" class="block text-gray-700 font-bold mb-2">More details?</label>
-                <textarea id="description" name="description" rows="1"
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    placeholder="Also talk with neighbors"></textarea>
-            </div>
-            <div class="mb-4">
-                <span class="block text-gray-700 font-bold mb-2">Your task is...</span>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Pending" checked
-                        class="form-radio text-blue-500 focus:ring-blue-500">
-                    <span class="ml-2">Pending</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Active" required
-                        class="form-radio text-blue-500 focus:ring-blue-500">
-                    <span class="ml-2">Active</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="status" value="Finished"
-                        class="form-radio text-blue-500 focus:ring-blue-500">
-                    <span class="ml-2">Finished</span>
-                </label>
-            </div>
-            <div class="flex justify-center">
-                <input type="submit" value="Submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            </div>
-        </form>
-    </div>
+<div class="p-4 max-w-md mx-auto py-3 overflow-y-auto">
+    <h1 class="text-3xl font-bold text-center">Task Form</h1>
+    <form class="mt-8 bg-white shadow rounded-lg p-4 mb-4" method="post" action="<?= $this->baseUrl() ?>/saved">
+        <div class="mb-4">
+            <label for="author" class="block text-gray-700 font-bold mb-2">Your name:</label>
+            <input id="author" name="author" type="text" placeholder="Task author" required class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+            <label for="name" class="block text-gray-700 font-bold mb-2">Enter the task title:</label>
+            <input id="name" name="name" type="text" placeholder="Walk the dog..." required class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+            <label for="description" class="block text-gray-700 font-bold mb-2">More details?</label>
+            <textarea id="description" name="description" rows="1" class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Also talk with neighbors"></textarea>
+        </div>
+        <div class="mb-4">
+            <span class="block text-gray-700 font-bold mb-2">Your task is...</span>
+            <label class="inline-flex items-center">
+                <input type="radio" name="status" value="Pending" checked class="form-radio text-blue-500 focus:ring-blue-500">
+                <span class="ml-2">Pending</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="status" value="Active" required class="form-radio text-blue-500 focus:ring-blue-500">
+                <span class="ml-2">Active</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="status" value="Finished" class="form-radio text-blue-500 focus:ring-blue-500">
+                <span class="ml-2">Finished</span>
+            </label>
+        </div>
+        <div class="flex justify-center">
+            <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        </div>
+    </form>
+</div>
