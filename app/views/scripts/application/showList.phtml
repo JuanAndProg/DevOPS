@@ -1,81 +1,77 @@
-<h1 class="text-3xl font-bold text-center">Task List</h1>
-<div class="mb-4">
-    <a href="<?= $this->baseUrl() ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4">
-        Add a new task
-    </a>
-</div>
-<?php
-$tasksPerPage = 5;
-$totalTasks = count($this->tasks);
-$totalPages = ceil($totalTasks / $tasksPerPage);
-
-if ($totalTasks > 0) {
-    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $start = ($currentPage - 1) * $tasksPerPage;
-    $end = $start + $tasksPerPage;
-    $pagedTasks = array_slice($this->tasks, $start, $tasksPerPage);
-
-    foreach ($pagedTasks as $taskId => $task) {
-        ?>
-        <div class="bg-white shadow rounded-lg p-4 mb-4 flex flex-col md:flex-row md:items-center justify-between">
-            <div class="md:flex-grow">
-                <h3 class="text-lg font-bold mb-2"><?= $task['name'] ?></h3>
-                <p class="text-gray-500 mt-2">
-                    Author: <?= $task['author'] ?> | Status: <?= $task['status'] ?>
-                </p>
-            </div>
-            <div class="md:space-x-2 flex items-center mt-4 md:mt-0">
-                <form method="post" action="<?= $this->baseUrl() ?>/viewTask?taskId=<?= $taskId ?>">
-                    <input type="hidden" name="taskId" value="<?= $taskId ?>">
-                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        View
-                    </button>
-                </form>
-                <a href="<?= $this->baseUrl() ?>/edit?taskId=<?= $taskId ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Update
-                </a>
-                <form method="post" action="<?= $this->baseUrl() ?>/deleted">
-                    <input type="hidden" name="deleteTaskId" value="<?= $taskId ?>">
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this task?')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    <?php }
-if ($totalPages > 1) { ?>
-    <div class="mt-4 flex justify-between items-center">
-        <?php if ($currentPage > 1) { ?>
-            <a href="<?= $this->baseUrl() ?>/showList?page=<?= $currentPage - 1 ?>" class="text-blue-500 font-bold ml-4">
-                Previous
-            </a>
-        <?php } ?>
-
-        <div class="flex items-center">
-            <div class="text-gray-700 ml-4 mr-4">Go to page:</div>
-            <div class="flex">
-                <?php for ($page = max(1, $currentPage - 2); $page <= min($currentPage + 2, $totalPages); $page++) { ?>
-                    <?php if ($page == $currentPage) { ?>
-                        <div class="px-2 py-1 text-blue-500 font-bold"><?= $page ?></div>
-                    <?php } else { ?>
-                        <a href="<?= $this->baseUrl() ?>/showList?page=<?= $page ?>" class="px-2 py-1 text-blue-500 font-bold hover:underline"><?= $page ?></a>
-                    <?php } ?>
-                <?php } ?>
-                <?php if ($currentPage + 2 < $totalPages) { ?>
-                    <span class="px-2 py-1 text-gray-700">...</span>
-                    <a href="<?= $this->baseUrl() ?>/showList?page=<?= $totalPages ?>" class="px-2 py-1 text-blue-500 font-bold hover:underline"><?= $totalPages ?></a>
-                <?php } ?>
-            </div>
-        </div>
-
-        <?php if ($currentPage < $totalPages) { ?>
-            <a href="<?= $this->baseUrl() ?>/showList?page=<?= $currentPage + 1 ?>" class="text-blue-500 font-bold mr-4">
-                Next
-            </a>
-        <?php } ?>
+<main class="flex-grow overflow-y-auto">
+    <h1 class="text-3xl font-bold text-center p-3">Task List</h1>
+    <div class="mb-4">
+        <a href="<?= $url ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-4">
+            Add a new task
+        </a>
     </div>
-<?php }
-} else {
-?>
-<p class="text-gray-700 text-lg ml-4">No tasks created yet.</p>
-<?php } ?>
+    <?php 
+    $url = $this->baseUrl();
+    $pagedTasks = $this->pagedTasks;
+    $totalTasks = $this->totalTasks;
+    $totalPages = $this->totalPages;
+    $currentPage = $this->currentPage;
+    if ($totalTasks > 0) {
+
+        foreach ($pagedTasks as $taskId => $task) {
+    ?>
+            <div class="bg-white shadow rounded-lg p-3 mb-3 flex flex-col md:flex-row md:items-center justify-between">
+                <div class="md:flex-grow">
+                    <h3 class="text-lg font-bold mb-2"><?= $task['name'] ?></h3>
+                    <p class="text-gray-500 mt-2">
+                        Author: <?= $task['author'] ?> | Status: <?= $task['status'] ?>
+                    </p>
+                </div>
+                <div class="md:space-x-2 flex items-center mt-4 md:mt-0">
+                    <form method="post" action="<?= $url ?>/viewTask?taskId=<?= $taskId ?>">
+                        <input type="hidden" name="taskId" value="<?= $taskId ?>">
+                        <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            View
+                        </button>
+                    </form>
+                    <a href="<?= $url ?>/edit?taskId=<?= $taskId ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Update
+                    </a>
+                    <form method="post" action="<?= $url ?>/deleted">
+                        <input type="hidden" name="deleteTaskId" value="<?= $taskId ?>">
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete this task?')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <?php }
+        if ($totalPages > 1) { ?>
+            <div class="mt-3 flex justify-between items-center">
+                <?php if ($currentPage > 1) { ?>
+                    <a href="<?= $url ?>/showList?page=<?= $currentPage - 1 ?>" class="text-blue-500 font-bold ml-4">
+                        Previous
+                    </a>
+                <?php } ?>
+
+                <div class="flex items-center">
+                    <div class="text-gray-700 ml-4 mr-4">Go to page:</div>
+                    <div class="flex">
+                        <?php for ($page = max(1, $currentPage - 2); $page <= min($this->currentPage + 2, $totalPages); $page++) { ?>
+                            <?php if ($page == $currentPage) { ?>
+                                <div class="px-2 py-1 text-blue-500 font-bold"><?= $page ?></div>
+                            <?php } else { ?>
+                                <a href="<?= $url ?>/showList?page=<?= $page ?>" class="px-2 py-1 text-blue-500 font-bold hover:underline"><?= $page ?></a>
+                            <?php } ?>
+                        <?php } ?>
+                        <?php if ($currentPage + 2 < $totalPages) { ?>
+                            <span class="px-2 py-1 text-gray-700">...</span>
+                            <a href="<?= $url ?>/showList?page=<?= $totalPages ?>" class="px-2 py-1 text-blue-500 font-bold hover:underline"><?= $totalPages ?></a>
+                        <?php } ?>
+                    </div>
+                </div>
+
+                <?php if ($currentPage < $totalPages) { ?>
+                    <a href="<?= $url ?>/showList?page=<?= $currentPage + 1 ?>" class="px-2 py-1 text-blue-500 font-bold mr-4 hover:underline">
+                        Next
+                    </a>
+                <?php } ?>
+            </div>
+    <?php }
+    } ?>
+</main>
