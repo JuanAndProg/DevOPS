@@ -1,15 +1,14 @@
-
+<?php $url = $this->baseUrl();?>
 <div class="bg-gray-100 flex items-center justify-center h-full">
     <div class="py-10 bg-white shadow rounded-3xl p-10">
         <h1 class="text-3xl mb-10 font-bold text-gray-800 text-center">ToDo App</h1>
         <div class="flex justify-center space-x-5">
-            <a href="<?= $this->baseUrl() ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="<?= $url ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Add a new Task
             </a>
-            <a href="<?= $this->baseUrl() ?>/showList" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="<?= $url ?>/showList" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Show Task List
             </a>
         </div>
     </div>
 </div>
-
