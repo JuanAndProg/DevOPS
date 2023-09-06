@@ -1,12 +1,12 @@
-<script src="https://cdn.tailwindcss.com"></script>
-<div class="bg-gray-100 min-h-screen py-6 flex flex-col justify-center sm:py-12">
-    <div class="py-10 bg-white shadow rounded-3xl p-10 mx-auto">
-        <h1 class="text-3xl mb-10 font-bold text-gray-800 text-center">To do app</h1>
+<?php $url = $this->baseUrl();?>
+<div class="flex items-center justify-center h-full">
+    <div class="py-10 bg-white shadow rounded-3xl p-10">
+        <h1 class="text-3xl mb-10 font-bold text-gray-800 text-center">ToDo App</h1>
         <div class="flex justify-center space-x-5">
-            <a href="http://localhost/DevOPS/web/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="<?= $url ?>/taskForm" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Add a new Task
             </a>
-            <a href="http://localhost/DevOPS/web/showList" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="<?= $url ?>/showList" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Show Task List
             </a>
         </div>

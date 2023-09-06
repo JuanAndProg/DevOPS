@@ -1,0 +1,17 @@
+<script>
+var countdownElement = document.getElementById('countdown');
+var countdownValue = 3;
+
+function startCountdown() {
+    countdownElement.textContent = 'Redirecting to your Task List in ' + countdownValue + ' seconds...';
+    countdownValue--;
+
+    if (countdownValue >= 0) {
+        setTimeout(startCountdown, 1000);
+    } else {
+        window.location.href = "<?= $url ?>/showList";
+    }
+}
+
+startCountdown();
+</script>

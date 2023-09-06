@@ -13,7 +13,7 @@ class ApplicationController extends Controller
     {
     }
     /**
-     * Method to go to the form  create a data
+     * Method to go to the form to create a data
      */
     public function taskFormAction(): void
     {
@@ -29,9 +29,16 @@ class ApplicationController extends Controller
         $description = $_POST["description"];
         $status      = $_POST["status"];
 
-        // Create a new instance of Task
+        // Create an array to represent a task
 
-        $task = new Task($author, $name, $description, $status);
+        $task = [
+            'author' => $author,
+            'name' => $name,
+            'description' => $description,
+            'status' => $status,
+            'startDate' => date('Y-m-d'),
+            'endDate' => null
+        ];
 
         TaskModel::saveTask($task);
     }
@@ -40,35 +47,122 @@ class ApplicationController extends Controller
      */
     public function showListAction(): void
     {
-        $taskModel = new TaskModel();
-        $tasks = $taskModel->getAllTasks();
+        $tasks = TaskModel::getAllTasks();
 
-        // Pasamos los datos a la vista
-        $this->view->tasks = $tasks;
+        $tasksPerPage = 4;
+        $totalTasks = count($tasks);
+        $totalPages = ceil($totalTasks / $tasksPerPage);
+
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $start = ($currentPage - 1) * $tasksPerPage;
+        // $end = $start + $tasksPerPage;
+        $pagedTasks = array_intersect_key($tasks, array_flip(array_slice(array_keys($tasks), $start, $tasksPerPage)));
+
+        // Sending data to the view
+        $this->view->pagedTasks = $pagedTasks;
+        $this->view->totalTasks = $totalTasks;
+        $this->view->totalPages = $totalPages;
+        $this->view->currentPage = $currentPage;
     }
-
+    /**
+     * Method to show the task using taskModel and the $view Controller property
+     */
     public function viewTaskAction()
     {
-    }
+        if (isset($_GET['taskId'])) {
+            $taskId = $_GET['taskId'];
+            $task = TaskModel::getTaskById($taskId);
+            if ($task !== null) {
 
+                $this->view->task = $task; // Sending data to the view
+                $this->view->taskId = $taskId; // Pass the taskId to the view
+
+                if (isset($_POST['deleteConfirmed'])) {
+                    // Remove the task from the array
+                    TaskModel::deleteTask($taskId);
+                    // Redirect to the deleted page
+                    header("Location: " . $this->view->baseUrl() . '/deleted');
+                    exit;
+                }
+            } else {
+                echo '<p class="text-red-500">Task not found.</p>';
+            }
+        } else {
+            echo '<p class="text-red-500">No task selected.</p>';
+        }
+    }
+    /**
+     * Method to edit a task using taskModel
+     */
     public function editTaskAction()
     {
-    }
+        // Check if taskId is in the URL
+        if (isset($_GET['taskId'])) {
+            // Get ID from the selected task
+            $taskId = $_GET['taskId'];
+            // Get the data of selected task from the tasks list
+            $task = TaskModel::getTaskById($taskId);
+            if ($task !== null) {
 
-    public function deletedTaskAction()
-    {
-        $data = TaskModel::readJson(TaskModel::$filePath);
-        if (isset($_POST['deleteTaskId'])) {
-            $taskIdToDelete = $_POST['deleteTaskId'];
-            if (isset($data[$taskIdToDelete])) {
-                // Remove the task from the array
-                unset($data[$taskIdToDelete]);
-                // Update the JSON file
-                TaskModel::writeJson($data);
-                // Redirect to the deletedTask page
-                header("Location: http://localhost/DevOPS/web/deleted");
+                $this->view->task = $task; // Sending data to the view
+                $this->view->taskId = $taskId; // Pass the taskId to the view
+
+                if (isset($_POST['updateTask'])) {
+                    $author = $_POST['author'];
+                    $name = $_POST['name'];
+                    $description = $_POST['description'];
+                    $status = $_POST['status'];
+
+                    // Get start date if present
+                    $startDate = isset($task['startDate']) ? $task['startDate'] : null;
+
+                    // Check if status changed to "finished" and update finish date
+                    if ($task && $task['status'] !== $status) {
+                        if ($status === 'Finished') {
+                            $endDate = date('Y-m-d'); // Current date
+                        } else {
+                            $endDate = null;
+                        }
+                    } else {
+                        $endDate = isset($task['endDate']) ? $task['endDate'] : null;
+                    }
+
+                    // Update info in selected task
+                    $updatedTaskData = [
+                        'author' => $author,
+                        'name' => $name,
+                        'description' => $description,
+                        'status' => $status,
+                        'startDate' => $startDate,
+                        'endDate' => $endDate
+                    ];
+                    TaskModel::updateTask($taskId, $updatedTaskData);
+
+                    // Redirect to the updated page
+                    header("Location: " . $this->view->baseUrl() . '/updated');
+                    exit;
+                }
+            } else {
+                echo '<p class="text-red-500">Task not found.</p>';
                 exit;
             }
+        } else {
+            echo '<p class="text-red-500">No task selected.</p>';
+        }
+    }
+
+    /**
+     * Method to delete a task using taskModel
+     */
+    public function deletedTaskAction()
+    {
+        if (isset($_POST['deleteTaskId'])) {
+            $taskIdToDelete = $_POST['deleteTaskId'];
+            TaskModel::deleteTask($taskIdToDelete);
+
+            // Redirect to the deletedTask page
+            header("Location: " . $this->view->baseUrl() . '/deleted');
+            exit;
         }
     }
     public function updatedAction()
